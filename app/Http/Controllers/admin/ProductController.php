@@ -19,7 +19,7 @@ class ProductController extends Controller
         return response()->json([
             'status' => 200,
             'message' => 'Products retrieved successfully',
-            'products' => $products
+            'data' => $products
         ], 200);
     }
     public function store(Request $request)
