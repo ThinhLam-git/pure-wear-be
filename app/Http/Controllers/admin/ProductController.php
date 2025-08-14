@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\ProductImage;
 use App\Models\TempImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -48,8 +49,8 @@ class ProductController extends Controller
         $product->description = $request->description;
         $product->short_description = $request->short_description;
         $product->image = $request->image;
-        $product->category_id = $request->category;
-        $product->brand_id = $request->brand;
+        $product->category = $request->category;
+        $product->brand = $request->brand;
         $product->qty = $request->qty;
         $product->sku = $request->sku;
         $product->status = $request->status;
@@ -80,6 +81,11 @@ class ProductController extends Controller
                 $img = $manager->read(public_path('uploads/temp/' . $tempImage->name));
                 $img->coverDown(400, 450);
                 $img->save(public_path('uploads/products/small/' . $imageName));
+
+                $productImage = new ProductImage();
+                $productImage->product_id = $product->id;
+                $productImage->image = $imageName;
+                $productImage->save();
 
                 if ($key == 0) {
                     $product->image = $imageName;
@@ -128,8 +134,8 @@ class ProductController extends Controller
         $product->description = $request->description;
         $product->short_description = $request->short_description;
         $product->image = $request->image;
-        $product->category_id = $request->category;
-        $product->brand_id = $request->brand;
+        $product->category = $request->category;
+        $product->brand = $request->brand;
         $product->qty = $request->qty;
         $product->sku = $request->sku;
         $product->status = $request->status;
