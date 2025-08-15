@@ -25,4 +25,5 @@ class Product extends Model
     public function product_sizes(){
         return $this->hasMany(ProductSize::class);
     }
+
 }

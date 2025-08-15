@@ -18,8 +18,10 @@ class ProductController extends Controller
     //
     public function index()
     {
+
         $products = Product::orderBy('created_at', 'desc')
             ->with(['product_images', 'product_sizes'])
+
             ->get();
         return response()->json([
             'status' => 200,
@@ -64,6 +66,7 @@ class ProductController extends Controller
 
         $product->save();
 
+
         if (!empty($request->sizes)) {
             foreach ($request->sizes as $sizeId) {
                 $productSize = new ProductSize();
@@ -74,6 +77,7 @@ class ProductController extends Controller
         }
 
         // Save the product image if provided
+
         if ($request->gallery) {
             foreach ($request->gallery as $key => $tempImageId) {
                 // Assuming you have a method to handle image saving
@@ -178,7 +182,9 @@ class ProductController extends Controller
 
     public function show($id)
     {
+
         $product = Product::with(['product_images', 'product_sizes'])->find($id);
+
 
         $productSizes = $product->product_sizes()->pluck(column: 'size_id');
         if (!$product) {
@@ -193,6 +199,7 @@ class ProductController extends Controller
             'message' => 'Product retrieved successfully',
             'data' => $product,
             'productSizes' => $productSizes
+
         ], 200);
     }
 
@@ -236,18 +243,20 @@ class ProductController extends Controller
             ], 400);
         }
 
-        // Store the image
+        //Store the image
 
         $image = $request->file('image');
         $imageName = $request->product_id . '-' . time() . '.' . $image->extension();
 
         // Large Thumbnail
+
         $manager = new ImageManager(Driver::class);
         $img = $manager->read($image->getPathName());
         $img->scaleDown(1200);
         $img->save(public_path('uploads/products/large/' . $imageName));
 
-        // Small Thumbnail
+        //Small Thumbnail
+
         $manager = new ImageManager(Driver::class);
         $img = $manager->read($image->getPathName());
         $img->coverDown(400, 450);
@@ -256,7 +265,8 @@ class ProductController extends Controller
         // Save a record in the product image table
         $productImage = new ProductImage();
         $productImage->image = $imageName;
-        $productImage->product_id = $request->product_id;  // Assuming you pass product_id in the request
+        $productImage->product_id = $request->product_id; // Assuming you pass product_id in the request
+
         $productImage->save();
 
         return response()->json([
@@ -265,6 +275,7 @@ class ProductController extends Controller
             'data' => $productImage
         ], 200);
     }
+
 
     public function updateDefaultImage(Request $request)
     {
