@@ -10,7 +10,7 @@ class SizeController extends Controller
 {
     //
     public function index(){
-        $sizes = Size::orderBy("name","asc")->get();
+        $sizes = Size::orderBy("id","asc")->get();
         return response()->json([
             'status' => 200,
             'message' => 'Size List',
