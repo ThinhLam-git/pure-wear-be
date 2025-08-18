@@ -80,4 +80,20 @@ class FrontProductController extends Controller
             'data' => $brands,
         ]);
     }
+
+    public function getProduct($id){
+        $product = Product::with(['product_images', 'product_sizes'])->find($id);
+        
+        if(!$product){
+            return response()->json([
+                'status' => 404,
+                'message' => 'Product not found',
+            ]);
+        }
+        return response()->json([
+            'status' => 200,
+            'message' => 'Retrieved Product successfully',
+            'data' => $product,
+        ]);
+    }
 }
