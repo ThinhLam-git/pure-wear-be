@@ -34,7 +34,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('get-categories', [FrontProductController::class, 'getCategories']);
     Route::get('get-brands', [FrontProductController::class, 'getBrands']);
     Route::get('get-products', [FrontProductController::class, 'getProducts']);
-
+    Route::get('get-product/{id}', [FrontProductController::class, 'getProduct']);
     
     Route::post('temp-images', [TempImageController::class, 'store']);
     Route::post('save-product-image', [ProductController::class, 'saveProductImage']);
