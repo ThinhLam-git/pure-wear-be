@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Size;
 use Illuminate\Http\Request;
 
 class FrontProductController extends Controller
@@ -94,6 +95,15 @@ class FrontProductController extends Controller
             'status' => 200,
             'message' => 'Retrieved Product successfully',
             'data' => $product,
+        ]);
+    }
+
+    public function getAllSizes(){
+        $sizes = Size::orderBy('created_at', 'desc')->get();
+        return response()->json([
+            'status' => 200,
+            'message' => 'Retrieved Sizes successfully',
+            'data' => $sizes,
         ]);
     }
 }
