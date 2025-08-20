@@ -32,6 +32,7 @@ Route::group(['middleware' => ['auth:sanctum', 'checkUserRole']], function () {
     Route::get('get-products', [FrontProductController::class, 'getProducts']);
     Route::get('get-product/{id}', [FrontProductController::class, 'getProduct']);
     Route::get('get-sizes', [FrontProductController::class, 'getAllSizes']);
+    Route::get('get-order/{id}', [AccountController::class, 'getOrder']);
 });
 
 Route::group(['middleware' => ['auth:sanctum', 'checkAdminRole']], function () {
