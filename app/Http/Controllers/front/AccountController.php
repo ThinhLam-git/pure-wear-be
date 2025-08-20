@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\front;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -61,6 +63,20 @@ class AccountController extends Controller
             ], 200);
         } else {
             return response()->json(['status' => 401, 'message' => 'Either Email or Password is not correct!'], 401);
+        }
+    }
+
+    public function getOrder($id, Request $request)
+    {
+        $order = Order::where([
+            'user_id' => $request->user()->id,
+            'id' => $id,
+        ])->first();
+        if ($order) {
+            $orderItems = OrderItem::where('order_id', $order->id)->get();
+            return response()->json(['status' => 200, 'order' => $order, 'order_items' => $orderItems], 200);
+        } else {
+            return response()->json(['status' => 400, 'message' => 'Order not found']);
         }
     }
 }

@@ -35,7 +35,7 @@ class OrderController extends Controller
                 $orderItem = new OrderItem();
                 $orderItem->order_id = $order->id;
                 $orderItem->product_id = $item['product_id'];
-                $orderItem->name = $item['name'];
+                $orderItem->name = $item['title'];
                 $orderItem->size = $item['size'];
                 $orderItem->qty = $item['qty'];
                 $orderItem->unit_price = $item['price'];
@@ -43,9 +43,10 @@ class OrderController extends Controller
                 $orderItem->save();
             }
 
-            return response()->json(['status' => 200, 'message' => 'You have placed your order successfully'], 200);
+            return response()->json(['status' => 200, 'id'=> $order->id, 'message' => 'You have placed your order successfully'], 200);
         } else {
             return response()->json(['status' => 400, 'message' => 'Your cart is empty']);
         }
     }
+
 }
